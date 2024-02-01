@@ -1,6 +1,22 @@
-fn main() {
-    let cmd = std::env::args().nth(1).expect("No command given. What should I do?");
-    let name = std::env::args().nth(2).expect("Stashed directories require a name");
+use clap::Parser;
+use std::env;
 
-    println!("cmd: {:?}, name: {:?}", cmd, name);
+#[derive(Parser)]
+struct Args {
+    cmd: String,
+    bookmark: String,
+}
+
+fn main() -> std::io::Result<()> {
+    let args = Args::parse();
+    let cwd = env::current_dir()?;
+
+    println!(
+        "cmd: {:?}, bookmark: {:?}, cwd: {:?}",
+        args.cmd,
+        args.bookmark,
+        cwd.display()
+    );
+
+    Ok(())
 }
