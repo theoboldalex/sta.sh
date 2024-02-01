@@ -4,22 +4,23 @@ use std::{env, path::PathBuf};
 #[derive(Parser)]
 struct Args {
     cmd: String,
-    tag: String,
+    tag: Option<String>,
 }
 
 fn list_bookmarks() {
+    println!("Printing all your current bookmarks...");
 }
 
-fn add_bookmark(tag: String, dir: PathBuf) {
-    println!("Creating tag: {}, to location: {:?}", tag, dir);
+fn add_bookmark(tag: Option<String>, dir: PathBuf) {
+    println!("Creating tag: {:?}, to location: {:?}", tag, dir);
 }
 
-fn remove_bookmark(tag: String) {
-    println!("Removing tag: {}", tag);
+fn remove_bookmark(tag: Option<String>) {
+    println!("Removing tag: {:?}", tag);
 }
 
-fn rename_bookmark(tag: String) {
-    println!("Renaming tag: {}", tag);
+fn rename_bookmark(tag: Option<String>) {
+    println!("Renaming tag: {:?}", tag);
 }
 
 fn main() -> std::io::Result<()> {
@@ -27,7 +28,9 @@ fn main() -> std::io::Result<()> {
     let cwd = env::current_dir()?;
 
     match args.cmd.as_str() {
-        "add" => add_bookmark(args.tag, cwd),
+        "a" | "add" => add_bookmark(args.tag, cwd),
+        "r" | "remove" => remove_bookmark(args.tag),
+        "l" | "list" => list_bookmarks(),
         _ => println!("Command not yet implemented...")
     }
 
