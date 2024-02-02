@@ -7,8 +7,9 @@ struct Args {
     tag: Option<String>,
 }
 
-fn validate_bookamrk_name(name: Option<String>) -> bool {
-    false
+fn validate_tag_name(tag: &str) -> bool {
+    let is_valid = tag.chars().all(|c| c.is_alphabetic() || c == '-' || c == '_');
+    is_valid
 }
 
 fn list_bookmarks() {
@@ -16,9 +17,11 @@ fn list_bookmarks() {
 }
 
 fn add_bookmark(tag: Option<String>, dir: PathBuf) {
-    if !validate_bookamrk_name(tag.clone()) {
-        println!("Invalid tag name");
-        return;
+    if let Some(tag) = &tag {
+        if !validate_tag_name(tag.clone().as_str()) {
+            println!("Invalid tag name");
+            return;
+        }
     }
     println!("Creating tag: {:?}, to location: {:?}", tag, dir);
 }
