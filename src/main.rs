@@ -27,7 +27,15 @@ fn add_bookmark(tag: Option<String>, dir: PathBuf) {
 }
 
 fn remove_bookmark(tag: Option<String>) {
-    println!("Removing tag: {:?}", tag);
+    if let Some(tag) = &tag {
+        println!("Removing tag: {:?}", tag);
+    }
+}
+
+fn navigate_to_bookmark(tag: Option<String>) {
+    if let Some(tag) = &tag {
+        println!("Navigating to {:?}", tag);
+    }
 }
 
 fn main() -> std::io::Result<()> {
@@ -38,6 +46,7 @@ fn main() -> std::io::Result<()> {
         "a" | "add" => add_bookmark(args.tag, cwd),
         "rm" | "remove" => remove_bookmark(args.tag),
         "l" | "list" => list_bookmarks(),
+        "go" => navigate_to_bookmark(args.tag),
         _ => println!("Command not yet implemented...")
     }
 
